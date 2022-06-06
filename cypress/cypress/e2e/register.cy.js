@@ -2,7 +2,6 @@ describe('registration test', () => {
 
 
     let existingEmail = "uros.letic00@gmail.com";
-    let baseUrl = "https://gallery-app.vivifyideas.com/register";
     let firstName = "Uros";
     let lastName = "Letic";
     let password = "12345678";
@@ -11,7 +10,7 @@ describe('registration test', () => {
     it('Go to gallery app registration page and verify all elements exist', () => {
 
 
-        cy.visit(baseUrl);
+        cy.visit('/register');
         cy.get('#first-name');
         cy.get('#last-name');
         cy.get('#email');
@@ -32,7 +31,7 @@ describe('registration test', () => {
         // console.log(Cypress.env('register_url'))
         // console.log("URLsS");
         // console.log(url);
-        cy.visit(baseUrl);
+        cy.visit('/register');
         cy.get('#first-name').type(firstName);
         cy.get('#last-name').type(lastName);
         cy.get('#email').type(email);
@@ -50,7 +49,7 @@ describe('registration test', () => {
         // Checking required fields, form should show alerts at all required fields.
 
 
-        cy.visit(baseUrl);
+        cy.visit('/register');
         cy.get('.btn').click();
         cy.url().should('contain', '/register');
         cy.get('.nav-link').should('have.length', 3)
@@ -64,7 +63,7 @@ describe('registration test', () => {
 
         let email = Math.floor(Math.random() * 9999999);
         email = String(email) + "@gmail.com"
-        cy.visit(baseUrl);
+        cy.visit('/register');
         cy.get('#first-name').type(firstName);
         cy.get('#last-name').type(lastName);
         cy.get('#email').type(email);
@@ -82,7 +81,7 @@ describe('registration test', () => {
         let email = Math.floor(Math.random() * 9999999);
         email = String(email) + "gmail.com"
 
-        cy.visit(baseUrl);
+        cy.visit('/register');
         cy.get('#first-name').type(firstName);
         cy.get('#last-name').type(lastName);
         cy.get('#email').type("uros.leticgmail.com");
@@ -98,7 +97,7 @@ describe('registration test', () => {
     it('Go to gallery app registration page and input already existing email', () => {
 
 
-        cy.visit(baseUrl);
+        cy.visit('/register');
         cy.get('#first-name').type(firstName);
         cy.get('#last-name').type(lastName);
         cy.get('#email').type(existingEmail);
@@ -115,7 +114,7 @@ describe('registration test', () => {
 
         let email = Math.floor(Math.random() * 9999999);
         email = String(email) + "@gmail.com"
-        cy.visit(baseUrl);
+        cy.visit('/register');
         cy.get('#first-name').type(firstName);
         cy.get('#last-name').type(lastName);
         cy.get('#email').type(email);
@@ -131,7 +130,7 @@ describe('registration test', () => {
     it('Go to gallery app registration page, verify password and pass confirmation input is in hidden form', () => {
 
 
-        cy.visit(baseUrl);
+        cy.visit('/register');
 
         cy.get('#password').type(password);
         cy.get('#password-confirmation').type(password);
@@ -160,7 +159,7 @@ describe('registration test', () => {
         // console.log(Cypress.env('register_url'))
         // console.log("URLsS");
         // console.log(url);
-        cy.visit(baseUrl);
+        cy.visit('/register');
         cy.get('#first-name').type(firstName);
         cy.get('#last-name').type(lastName);
         cy.get('#email').type(email);
