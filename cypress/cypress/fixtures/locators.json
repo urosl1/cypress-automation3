@@ -1,0 +1,8 @@
+{
+    "Login": {
+        "loginBtn": ".nav-link",
+        "emailInput": "#email",
+        "passwordInput": "#password",
+        "submitBtn": "button"
+    }
+}

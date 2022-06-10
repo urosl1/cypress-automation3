@@ -1,3 +1,8 @@
+const locators = require('../fixtures/locators.json');
+// const { registerPage } = require('../page_objects/registerPage');
+// import { faker } from '@faker-js/faker';
+import { registerPage } from "../page_objects/registerPage";
+
 describe('registration test', () => {
 
 
@@ -6,24 +11,28 @@ describe('registration test', () => {
     let lastName = "Letic";
     let password = "12345678";
 
-
-    it('Go to gallery app registration page and verify all elements exist', () => {
-
-
+    beforeEach(() => {
         cy.visit('/register');
-        cy.get('#first-name');
-        cy.get('#last-name');
-        cy.get('#email');
-        cy.get('#password');
-        cy.get('#password-confirmation');
-        cy.get('.form-check-input');
-        cy.get('.btn');
+    })
+
+    it.only('Go to gallery app registration page and verify all elements exist', () => {
+
+
+        // cy.get('#first-name');
+        // cy.get('#last-name');
+        // cy.get('#email');
+        // cy.get('#password');
+        // cy.get('#password-confirmation');
+        // cy.get('.form-check-input');
+        // cy.get('.btn');
+        registerPage.register(firstName, lastName, existingEmail, password, password);
+
         cy.url().should('contain', '/register');
         cy.get('.nav-link').should('have.length', 3);
 
     })
 
-    it('Go to gallery app registration page and correctly submit all credentials', () => {
+    it.only('Go to gallery app registration page and correctly submit all credentials', () => {
 
         let email = Math.floor(Math.random() * 9999999);
         email = String(email) + "@gmail.com"
@@ -31,7 +40,6 @@ describe('registration test', () => {
         // console.log(Cypress.env('register_url'))
         // console.log("URLsS");
         // console.log(url);
-        cy.visit('/register');
         cy.get('#first-name').type(firstName);
         cy.get('#last-name').type(lastName);
         cy.get('#email').type(email);
@@ -49,7 +57,6 @@ describe('registration test', () => {
         // Checking required fields, form should show alerts at all required fields.
 
 
-        cy.visit('/register');
         cy.get('.btn').click();
         cy.url().should('contain', '/register');
         cy.get('.nav-link').should('have.length', 3)
@@ -63,7 +70,6 @@ describe('registration test', () => {
 
         let email = Math.floor(Math.random() * 9999999);
         email = String(email) + "@gmail.com"
-        cy.visit('/register');
         cy.get('#first-name').type(firstName);
         cy.get('#last-name').type(lastName);
         cy.get('#email').type(email);
@@ -81,7 +87,6 @@ describe('registration test', () => {
         let email = Math.floor(Math.random() * 9999999);
         email = String(email) + "gmail.com"
 
-        cy.visit('/register');
         cy.get('#first-name').type(firstName);
         cy.get('#last-name').type(lastName);
         cy.get('#email').type("uros.leticgmail.com");
@@ -97,7 +102,6 @@ describe('registration test', () => {
     it('Go to gallery app registration page and input already existing email', () => {
 
 
-        cy.visit('/register');
         cy.get('#first-name').type(firstName);
         cy.get('#last-name').type(lastName);
         cy.get('#email').type(existingEmail);
@@ -114,7 +118,6 @@ describe('registration test', () => {
 
         let email = Math.floor(Math.random() * 9999999);
         email = String(email) + "@gmail.com"
-        cy.visit('/register');
         cy.get('#first-name').type(firstName);
         cy.get('#last-name').type(lastName);
         cy.get('#email').type(email);
@@ -130,7 +133,6 @@ describe('registration test', () => {
     it('Go to gallery app registration page, verify password and pass confirmation input is in hidden form', () => {
 
 
-        cy.visit('/register');
 
         cy.get('#password').type(password);
         cy.get('#password-confirmation').type(password);
@@ -159,7 +161,6 @@ describe('registration test', () => {
         // console.log(Cypress.env('register_url'))
         // console.log("URLsS");
         // console.log(url);
-        cy.visit('/register');
         cy.get('#first-name').type(firstName);
         cy.get('#last-name').type(lastName);
         cy.get('#email').type(email);
@@ -172,5 +173,17 @@ describe('registration test', () => {
         cy.get('.nav-link').should('have.length', 3)
 
     })
+
+
+    it('Go to gallery app registration page, verify password and pass confirmation input is in hidden form', () => {
+
+        cy.visit('/login');
+        cy.get(locators.Login.loginBtn).eq(1).click();
+        cy.get(locators.Login.emailInput).type(existingEmail);
+        cy.get(locators.Login.passwordInput).type(password);
+        cy.get(locators.Login.submitBtn).click();
+    })
+
+
 
 });
