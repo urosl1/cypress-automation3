@@ -14,6 +14,7 @@ describe('allGalleriesTest', () => {
     it('Search test with input', () => {
 
         allGalleries.search(filterInput);
-
+        cy.visit('https://gallery-app.vivifyideas.com');
+        cy.get('.box-title').should('not.contain', title);
     })
 })

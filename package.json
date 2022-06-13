@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "cypress": "^10.0.3",
+    "faker": "^6.6.6"
+  }
+}

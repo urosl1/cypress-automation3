@@ -2,20 +2,32 @@ const locators = require('../fixtures/locators.json');
 // const { registerPage } = require('../page_objects/registerPage');
 // import { faker } from '@faker-js/faker';
 import { registerPage } from "../page_objects/registerPage";
+const faker = require('@faker-js/faker');
 
 describe('registration test', () => {
 
 
+
     let existingEmail = "uros.letic00@gmail.com";
-    let firstName = "Uros";
-    let lastName = "Letic";
-    let password = "12345678";
+    let correctPassword = "12345678";
+    let firstName = faker.name.firstName();
+    let lastName = faker.name.lastName();
+    let password = faker.internet.password();
+    let email = faker.internet.email();
+    let passwordWithoutNumber = faker.internet.password(20, true, /[A-Z]/);
+    let oneLetterName = faker.random.alpha({ count: 1 });
 
     beforeEach(() => {
         cy.visit('/register');
+        firstName = faker.name.firstName();
+        lastName = faker.name.lastName();
+        password = faker.internet.password();
+        email = faker.internet.email();
+        passwordWithoutNumber = faker.internet.password(20, true, /[A-Z]/);
+        oneLetterName = faker.random.alpha({ count: 1 });
     })
 
-    it.only('Go to gallery app registration page and verify all elements exist', () => {
+    it('Go to gallery app registration page and verify all elements exist', () => {
 
 
         // cy.get('#first-name');
@@ -32,10 +44,10 @@ describe('registration test', () => {
 
     })
 
-    it.only('Go to gallery app registration page and correctly submit all credentials', () => {
+    it('Go to gallery app registration page and correctly submit all credentials', () => {
 
-        let email = Math.floor(Math.random() * 9999999);
-        email = String(email) + "@gmail.com"
+        // let email = Math.floor(Math.random() * 9999999);
+        // email = String(email) + "@gmail.com"
         // Cypress.env()
         // console.log(Cypress.env('register_url'))
         // console.log("URLsS");
@@ -43,9 +55,41 @@ describe('registration test', () => {
         cy.get('#first-name').type(firstName);
         cy.get('#last-name').type(lastName);
         cy.get('#email').type(email);
+        cy.get('#password').type(correctPassword);
+        cy.get('#password-confirmation').type(correctPassword);
+        cy.get('.form-check-input').click();
+        cy.get('.btn').click();
+        cy.url().should('contain', '/register');
+
+    })
+
+    it('Go to gallery app registration page and submit all correct credentials except the first name with one letter', () => {
+
+        cy.get('#first-name').type(oneLetterName);
+        cy.get('#last-name').type(lastName);
+        cy.get('#email').type(email);
         cy.get('#password').type(password);
         cy.get('#password-confirmation').type(password);
         cy.get('.form-check-input').click();
+        cy.get('.btn').click();
+        cy.url().should('not.contain', '/register');
+
+
+    })
+
+    it('Go to gallery app registration page and correctly submit all credentials without checking the agree box', () => {
+
+        // let email = Math.floor(Math.random() * 9999999);
+        // email = String(email) + "@gmail.com"
+        // Cypress.env()
+        // console.log(Cypress.env('register_url'))
+        // console.log("URLsS");
+        // console.log(url);
+        cy.get('#first-name').type(firstName);
+        cy.get('#last-name').type(lastName);
+        cy.get('#email').type(email);
+        cy.get('#password').type(correctPassword);
+        cy.get('#password-confirmation').type(correctPassword);
         cy.get('.btn').click();
         cy.url().should('not.contain', '/register');
         cy.get('.nav-link').should('have.length', 4)
@@ -68,8 +112,8 @@ describe('registration test', () => {
 
 
 
-        let email = Math.floor(Math.random() * 9999999);
-        email = String(email) + "@gmail.com"
+        // let email = Math.floor(Math.random() * 9999999);
+        // email = String(email) + "@gmail.com"
         cy.get('#first-name').type(firstName);
         cy.get('#last-name').type(lastName);
         cy.get('#email').type(email);
@@ -84,8 +128,8 @@ describe('registration test', () => {
 
     it('Go to gallery app registration page and input incorrect mail form', () => {
 
-        let email = Math.floor(Math.random() * 9999999);
-        email = String(email) + "gmail.com"
+        // let email = Math.floor(Math.random() * 9999999);
+        // email = String(email) + "gmail.com"
 
         cy.get('#first-name').type(firstName);
         cy.get('#last-name').type(lastName);
@@ -116,8 +160,8 @@ describe('registration test', () => {
 
     it('Go to gallery app registration page, input password below 8 characters', () => {
 
-        let email = Math.floor(Math.random() * 9999999);
-        email = String(email) + "@gmail.com"
+        // let email = Math.floor(Math.random() * 9999999);
+        // email = String(email) + "@gmail.com"
         cy.get('#first-name').type(firstName);
         cy.get('#last-name').type(lastName);
         cy.get('#email').type(email);
@@ -175,15 +219,16 @@ describe('registration test', () => {
     })
 
 
-    it('Go to gallery app registration page, verify password and pass confirmation input is in hidden form', () => {
+    it('Go to gallery app registration page, attempt registration using password with no numbers', () => {
 
-        cy.visit('/login');
-        cy.get(locators.Login.loginBtn).eq(1).click();
+        cy.get('#first-name').type(firstName);
+        cy.get('#last-name').type(lastName);
         cy.get(locators.Login.emailInput).type(existingEmail);
-        cy.get(locators.Login.passwordInput).type(password);
-        cy.get(locators.Login.submitBtn).click();
+        cy.get(locators.Login.passwordInput).type(passwordWithoutNumber);
+        cy.get('#password-confirmation').type(passwordWithoutNumber);
+        cy.get('.btn').click();
+        cy.url().should('contain', '/register');
+
     })
-
-
 
 });

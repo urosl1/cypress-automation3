@@ -15,6 +15,10 @@ class LoginPage {
         return cy.get('button');
     }
 
+    get errorMessage() {
+        return cy.get('p[class="alert alert-danger"]');
+    }
+
     login(email, password) {
 
         this.emailInput.type(email);
